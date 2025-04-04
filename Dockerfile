@@ -19,7 +19,7 @@ RUN apk update && \
 
 RUN yarn set version stable
 
-RUN yarn install --production --immutable && \
+RUN yarn install --immutable && \
     yarn add sharp --ignore-engines && \
     yarn cache clean
 
