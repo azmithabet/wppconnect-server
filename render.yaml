@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: wppconnect-server
+    env: node
+    plan: free
+    region: frankfurt  # أو أي region مناسب ليك
+    buildCommand: |
+      apk add --no-cache chromium \
+      && yarn install --immutable && yarn build
+    startCommand: PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser node dist/server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 21465
+      - key: PUPPETEER_SKIP_CHROMIUM_DOWNLOAD
+        value: true
+      - key: PUPPETEER_EXECUTABLE_PATH
+        value: /usr/bin/chromium-browser
+    autoDeploy: true
+    branch: main  # اختار الفرع اللي هتنشر عليه
+    healthCheckPath: /health  # لو في API health check تقدر تحط المسار بتاعه
+    timeout: 300  # تعيين الوقت الأقصى لتشغيل الخدمة (بالثواني)
