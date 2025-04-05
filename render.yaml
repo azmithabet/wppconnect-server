@@ -1,12 +1,13 @@
 services:
   - type: web
-    name: wppconnect
+    name: wpp-server
     env: docker
-    plan: starter
-    region: oregon
-    dockerfilePath: ./Dockerfile
-    buildCommand: ""
-    startCommand: "npm start"
+    buildCommand: "docker build -t wpp-server ."
+    startCommand: "docker run -p 21465:21465 wpp-server"
+    plan: free
+    port: 21465
     envVars:
-      - key: PORT
-        value: 3000
+      - key: NODE_ENV
+        value: production
+      - key: PUPPETEER_SKIP_CHROMIUM_DOWNLOAD
+        value: "true"
